@@ -30,15 +30,17 @@ Ubuntu 的 GNOME 桌面環境（Mutter 視窗管理員）會把顯卡上接的�
 
 ---
 
-## 兩個設定，順序不能換
+## 三個設定，前兩個順序不能換
 
 | 順序 | 做什麼 | 指令 | 一定要做嗎 |
 |---|---|---|---|
 | **第一個** | **修好 GUI 登入畫面**：登入畫面和所有帳號的桌面都回到一般螢幕 | `cd kit && sudo ./install.sh` | 必要 |
 | **第二個** | **新增使用者**：建立學生帳號 `unoq`，並關掉 `csie` 自動登入 | `sudo ./setup-unoq.sh` | 選用 |
+| **第三個** | **修好 Antigravity 沙箱錯誤**：Antigravity 打不開、出現 sandbox 錯誤時 | `sudo ./fix-antigravity-sandbox.sh` | 選用（有裝 Antigravity 才需要） |
 
 先做第一個。第一個修好之後，第二個新增的帳號（包括以後再建的任何帳號）登入時會自動套用修正，不用再另外處理。
 只做第二個沒有用：新帳號登入時畫面一樣會被頭盔搶走。
+第三個和前兩個無關，任何時候都可以做，但要先安裝好 Antigravity。
 
 ---
 
@@ -109,6 +111,30 @@ sudo ./setup-unoq.sh
 - 具備 `sudo`、`adm` 管理者群組。腳本最後會檢查 sudo 權限，顯示 `OK: unoq has sudo rights` 才算成功
 - 用 `unoq` 登入後可以再確認：`sudo -v`（輸入 unoq 的密碼，沒有錯誤訊息就是有 sudo）
 - 自動將 `/etc/gdm3/custom.conf` 中的自動登入註解關閉。
+
+---
+
+### 步驟 4b：【第三個設定，選用】修好 Antigravity 的沙箱（sandbox）錯誤
+
+**症狀**：Antigravity 打不開，或在終端機啟動時出現 `No usable sandbox!`、
+`The SUID sandbox helper binary was found, but is not configured correctly` 之類的錯誤。
+
+**原因**：Ubuntu 24.04 以後，AppArmor 預設禁止程式建立 user namespace
+（`kernel.apparmor_restrict_unprivileged_userns=1`），只有 Ubuntu 認得的程式（例如 VS Code、Chrome）有例外。
+Antigravity 是 Electron 程式，需要這個功能才能開沙箱。這是**整台電腦**的設定，不是個別帳號的問題，所以換帳號、建新帳號都沒用。
+
+**做法**：先用 apt 把 Antigravity 安裝到系統（不要裝在個人家目錄，其他帳號會用不到），然後：
+
+```bash
+sudo ./fix-antigravity-sandbox.sh
+# 找不到程式時，自己指定路徑：
+# sudo ./fix-antigravity-sandbox.sh /usr/share/antigravity/antigravity
+```
+
+- 新增 `/etc/apparmor.d/antigravity` 給 Antigravity 例外，所有帳號（包括新帳號）都有效
+- **不要**用 `--no-sandbox` 或把整台電腦的保護關掉（`sysctl ...=0`），那樣雖然能開，但安全性變差
+- 移除：腳本最後會印出移除指令
+- 注意：這個腳本**還沒在學生機上實測過**。試過之後請回報結果（開 issue）
 
 ---
 

@@ -18,6 +18,9 @@ This repo fixes that. Reply to the student in the language they use (often Tradi
   setting. Run it first; it covers most of the diagnosis steps below.
 - `setup-unoq.sh` (lab PCs only, sudo) creates the student account `unoq` and turns off `csie` autologin.
   Never write the account's password into this repo: it is public.
+- `fix-antigravity-sandbox.sh` (optional, sudo) adds an AppArmor profile so Google Antigravity's Electron
+  sandbox may create user namespaces (Ubuntu 24.04+ sets `kernel.apparmor_restrict_unprivileged_userns=1`).
+  It affects every user. Not yet tested on a real PC. Don't suggest `--no-sandbox` or turning the sysctl off.
 - Student steps: `STUDENT_GUIDE.md`. Details and history: `docs/GUIDE.md`.
 
 ## Rules

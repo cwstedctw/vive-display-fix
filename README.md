@@ -1,6 +1,6 @@
 # VIVE 頭盔搶走桌面螢幕：修正工具
 
-> **實驗室學生機請看 [STUDENT_GUIDE.md](STUDENT_GUIDE.md)**（含環境檢測 `check-env.sh`、建立 `unoq` 帳號 `setup-unoq.sh`）。
+> **實驗室學生機請看 [STUDENT_GUIDE.md](STUDENT_GUIDE.md)**（含環境檢測 `check-env.sh`、建立 `unoq` 帳號 `setup-unoq.sh`、修 Antigravity 沙箱錯誤 `fix-antigravity-sandbox.sh`）。
 > 這份 README 是一般說明，適用各種電腦和情況。
 
 適用：Ubuntu（GNOME / Wayland / GDM），電腦同時接一般螢幕和 HTC VIVE 等 VR 頭盔。
