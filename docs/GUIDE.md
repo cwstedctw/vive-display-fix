@@ -2,6 +2,7 @@
 
 適用：Ubuntu 26.04（GNOME 50 / Wayland / GDM），電腦同時接一般螢幕和 HTC VIVE（Cosmos 等）VR 頭盔。
 第一次處理日期：2026-09-23（螢幕經 HDMI→VGA 轉接的機器）。
+最後更新：2026-10-01，用 GitHub 版 kit 重開機實測通過（見第 8 節）。
 
 ---
 
@@ -35,17 +36,19 @@ GNOME 的顯示管理程式 mutter 把 VIVE 頭盔當成一般螢幕。它常常
 
 ### 安裝步驟
 
-1. 把整個 `kit/` 資料夾複製到學生機（USB、`scp -r` 都可以）
-2. 開一般終端機（不是在 Claude Code 裡，因為 `sudo` 要輸入密碼）：
+1. 開一般終端機（不是在 Claude Code 裡，因為 `sudo` 要輸入密碼），下載並安裝：
 
    ```bash
-   cd kit
+   sudo apt install -y git python3-gi
+   git clone https://github.com/cwstedctw/vive-display-fix.git
+   cd vive-display-fix/kit
    sudo ./install.sh
    ```
 
-3. 登出。登入畫面應該出現在一般螢幕上
-4. 登入任一帳號，確認有桌面圖示和面板
-5. （選擇性）在桌面的終端機執行下面指令，確認它看到的螢幕是對的：
+   沒有網路時，把 `kit/` 資料夾用 USB 複製過去，在裡面執行 `sudo ./install.sh` 也可以
+2. 重新開機（或登出）。登入畫面應該出現在一般螢幕上
+3. 登入任一帳號，確認有桌面圖示和面板
+4. （選擇性）在桌面的終端機執行下面指令，確認它看到的螢幕是對的：
 
    ```bash
    /usr/local/bin/vr-display-fix.py --dry-run
@@ -53,6 +56,8 @@ GNOME 的顯示管理程式 mutter 把 VIVE 頭盔當成一般螢幕。它常常
 
    正常輸出例如：
    `vr-display-fix: mirror DP-1, DP-4, HDMI-1 at 1920x1080, off: DP-2 (VIVE Cosmos)`
+
+5. 更新到新版：`cd vive-display-fix && git pull && cd kit && sudo ./install.sh`
 
 ### 安裝了哪些東西
 
@@ -109,3 +114,21 @@ GNOME 的顯示管理程式 mutter 把 VIVE 頭盔當成一般螢幕。它常常
 
 程式只在桌面（GNOME）裡關掉頭盔，沒有停用顯示卡接頭。SteamVR 在 Wayland 上能不能照常直接輸出到頭盔，**這次沒有測試**。
 如果 VR 程式抓不到頭盔，先 `sudo ./install.sh --remove` 比較看看。
+
+## 8. 測試紀錄
+
+| 日期 | 機器 | 結果 |
+|---|---|---|
+| 2026-09-23 | 第一台（ASUS VG255，VGA 經 HDMI→VGA 轉接，VIVE Cosmos） | 舊版單機修正（`asus-vga-only.sh`）可用 |
+| 2026-10-01 | 同一台，改裝 GitHub 版 kit，**重新開機**、關閉自動登入 | 通過，見下方 |
+
+2026-10-01 重開機後確認的項目：
+
+- 舊版 `asus-vga-only` 檔案已被 `install.sh` 移除，不會重複執行
+- 登入畫面：開機約 40 秒後 `vr-display-fix-greeter.service` 執行，畫面出現在一般螢幕
+- 登入桌面後 autostart 再執行一次，有圖示和面板
+- 兩次都輸出 `mirror DP-1, DP-4, HDMI-1 at 1920x1080, off: DP-2 (VIVE Cosmos)`，
+  `/sys/class/drm` 顯示 DP-2（VIVE）為 disabled
+
+尚未測試：其他學生機（不同顯示卡或螢幕）、新建帳號第一次登入、SteamVR。
+在新機器測試後，請把結果加到上表（開 issue 或 PR）。

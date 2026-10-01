@@ -9,6 +9,8 @@
 - 一般螢幕顯示「No Signal」，但電腦其實已經開機
 - 換一個帳號、新建帳號也一樣壞
 
+已在一台 Ubuntu 26.04 + VIVE Cosmos 的電腦重開機實測通過（2026-10-01）。
+
 原因是 GNOME 把 VR 頭盔當成一般螢幕，把桌面輸出到頭盔裡。**新增帳號沒有用**，要安裝這個工具，每台電腦裝一次就好，之後所有帳號（包括新建的）和登入畫面都會自動修好。
 
 ## 安裝（需要 sudo 密碼）
@@ -24,7 +26,9 @@ cd vive-display-fix/kit
 sudo ./install.sh
 ```
 
-然後**登出**，登入畫面應該出現在一般螢幕上。
+然後**重新開機**（或登出），登入畫面應該出現在一般螢幕上。
+
+已經裝過舊版，要更新：`cd vive-display-fix && git pull && cd kit && sudo ./install.sh`
 
 ### 情況 B：看不到桌面（畫面在頭盔裡）
 
@@ -44,7 +48,7 @@ sudo ./install.sh
 正常會看到類似：
 
 ```
-vr-display-fix: mirror DP-1, HDMI-1 at 1920x1080, off: DP-2 (VIVE Cosmos)
+vr-display-fix: mirror DP-1, DP-4, HDMI-1 at 1920x1080, off: DP-2 (VIVE Cosmos)
 ```
 
 ## 注意
