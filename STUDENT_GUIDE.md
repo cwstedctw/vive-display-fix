@@ -106,7 +106,8 @@ sudo ./setup-unoq.sh
 
 - 帳號名稱：`unoq`
 - 密碼：執行時會要求輸入兩次，請用老師提供的密碼（這個 repo 是公開的，所以不寫在這裡）
-- 具備 `sudo`、`adm` 管理者群組。
+- 具備 `sudo`、`adm` 管理者群組。腳本最後會檢查 sudo 權限，顯示 `OK: unoq has sudo rights` 才算成功
+- 用 `unoq` 登入後可以再確認：`sudo -v`（輸入 unoq 的密碼，沒有錯誤訊息就是有 sudo）
 - 自動將 `/etc/gdm3/custom.conf` 中的自動登入註解關閉。
 
 ---

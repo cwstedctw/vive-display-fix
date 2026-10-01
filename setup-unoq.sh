@@ -40,6 +40,12 @@ echo
 echo "=== Verification ==="
 echo "User unoq details:"
 id unoq
+if id -nG unoq | grep -qw sudo && sudo -l -U unoq | grep -q '(ALL'; then
+    echo "OK: unoq has sudo rights (takes effect at unoq's next login)."
+else
+    echo "ERROR: unoq has no sudo rights. Check: sudo -l -U unoq"
+    exit 1
+fi
 echo
 echo "Autologin configuration in /etc/gdm3/custom.conf:"
 grep -E "AutomaticLogin" /etc/gdm3/custom.conf 2>/dev/null || true
