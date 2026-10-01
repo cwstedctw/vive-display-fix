@@ -14,7 +14,11 @@ This repo fixes that. Reply to the student in the language they use (often Tradi
   - `/etc/systemd/user/vr-display-fix-greeter.service`, plus a drop-in on `gnome-session@gnome-login.target`:
     GDM login screen on GNOME 46+
   - `/usr/share/gdm/greeter/autostart`: login screen on older GDM
-- Details and history: `docs/GUIDE.md`.
+- `check-env.sh` (no sudo) prints OS, connectors, `python3-gi`, install state, a dry-run and the autologin
+  setting. Run it first; it covers most of the diagnosis steps below.
+- `setup-unoq.sh` (lab PCs only, sudo) creates the student account `unoq` and turns off `csie` autologin.
+  Never write the account's password into this repo: it is public.
+- Student steps: `STUDENT_GUIDE.md`. Details and history: `docs/GUIDE.md`.
 
 ## Rules
 

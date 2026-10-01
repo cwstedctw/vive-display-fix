@@ -1,5 +1,8 @@
 # VIVE 頭盔搶走桌面螢幕：修正工具
 
+> **實驗室學生機請看 [STUDENT_GUIDE.md](STUDENT_GUIDE.md)**（含環境檢測 `check-env.sh`、建立 `unoq` 帳號 `setup-unoq.sh`）。
+> 這份 README 是一般說明，適用各種電腦和情況。
+
 適用：Ubuntu（GNOME / Wayland / GDM），電腦同時接一般螢幕和 HTC VIVE 等 VR 頭盔。
 
 ## 你是不是遇到這個問題？
@@ -73,5 +76,7 @@ sudo ./install.sh --remove
 agent 會照 `AGENTS.md` 的步驟檢查。需要 sudo 的指令它會寫給你，**由你自己在終端機執行**。
 
 修好了而且有改程式，請開 issue 回報你改了什麼，讓其他同學也能用。
+
+實驗室學生機的步驟：[STUDENT_GUIDE.md](STUDENT_GUIDE.md)（快速版：[使用說明.txt](使用說明.txt)）
 
 詳細原理和試過但失敗的方法：[docs/GUIDE.md](docs/GUIDE.md)
